@@ -8,7 +8,7 @@ import {
 	apiPatchTodos,
 	apiPutTodos,
 } from "../api";
-import TodoItem from "./TodoItem";
+import TodoItem from "../components/TodoItem";
 
 const Todo = ({ todoToken }) => {
 	const [list, setList] = useState([]);
