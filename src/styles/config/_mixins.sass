@@ -1,0 +1,101 @@
+
+/* RWD START */ 
+
+$grid-breakpoints: ('': false,xl: 1199px,lg: 991px,md: 767px,sm: 575px)
+// @mixin xxl
+//   @media(max-width: 1199px) 
+//     @content
+@mixin xl
+  @media(max-width: 1199px) 
+    @content
+@mixin lg
+  @media(max-width: 991px) 
+    @content
+@mixin md
+  @media(max-width: 767px) 
+    @content
+@mixin sm
+  @media(max-width: 575px) 
+    @content
+// @mixin xs
+//   @media(max-width: $bk-xs) 
+//     @content
+// @mixin mblg
+//   @media(max-width: $bk-mblg) 
+//     @content
+// @mixin mbsm
+//   @media(max-width: $bk-mbsm) 
+//     @content
+// @mixin mbxs
+//   @media(max-width: $bk-mbxs) 
+//     @content
+
+  /* RWD END */
+
+
+$font-size-16: 16px
+@function toRem($px)
+  @return ($px / $font-size-16) * 1rem
+
+
+// //漸層 左到右
+// @mixin gradient_hori($color_1,$color_2,$color_3){
+//   background: $color_2;
+//   background: -moz-linear-gradient(left, $color_1, $color_2, $color_3); 
+//   background: -webkit-linear-gradient(left, $color_1,$color_2,$color_3); 
+//   background: linear-gradient(to right, $color_1,$color_2,$color_3); 
+// }
+// //漸層 上到下
+// @mixin gradient_vertical($color_1,$color_2,$color_3){
+//   background: $color_2;
+//   background: -moz-linear-gradient(top, $color_1, $color_2, $color_3); 
+//   background: -webkit-linear-gradient(top, $color_1,$color_2,$color_3); 
+//   background: linear-gradient(to bottom, $color_1,$color_2,$color_3); 
+// }
+
+// // 文字常用set
+// @mixin text_set($fz,$fw,$color){
+//   font-size: $fz;
+//   font-weight: $fw;
+//   color: $color;
+// }
+
+// @function toRem($num){
+//   @return ($px / basic-font-size) * 1rem;
+// }
+
+@mixin clearfix()
+  &::after 
+    display: block
+    clear: both
+    content: ""
+
+// 隱藏文字
+@mixin hide-text 
+  text-indent: 110%
+  white-space: nowrap
+  overflow: hidden
+
+@mixin size($w,$h:$w)
+  width: $w
+  height: $h
+
+
+// 上下左右置中 flex 版本
+@mixin flexCenter
+  display: flex
+  justify-content: center
+  align-items: center
+
+// 元素上下左右置中 absolute
+@mixin abCenter
+  position: absolute
+  left: 50%
+  top: 50%
+  transform: translate(-50%,-50%)
+
+
+
+
+
+

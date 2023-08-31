@@ -1,0 +1,54 @@
+@import "config/_reset"
+@import "config/_variables"
+@import "config/_mixins"
+@import "config/_grid"
+@import "config/_base"
+@import "config/_helper"
+
+.form 
+  font-family: $font-family-default
+  font-size: 1rem
+  &__item
+    margin-top: 12px
+  &__label
+    display: block
+  &__input
+    width: 100%
+    height: 40px
+    padding: 10px
+    border: solid 1px #555
+    border-radius: 6px
+    outline: 0
+    &:focus, &:active, &:focus-visible
+      border: solid 2px $color-primary 
+  &__button
+    background-color: $color-primary
+    color: white
+    padding: 12px 36px
+    border-radius: 6px
+    font-size: 1rem
+    cursor: pointer
+    transition: background .3s
+    &:hover
+      background-color: lighten($color-primary, 8%)
+
+.content 
+  border-radius: 20px
+  box-shadow: 0 0 8px 8px rgba(0,0,0,.1)
+  
+  &__title
+    color: $color-white
+    text-align: center
+    margin-top: 0
+    padding: 12px
+  &__header
+    border-top-left-radius: 20px
+    border-top-right-radius: 20px
+    background-color: $color-primary
+  &__body 
+    border-bottom-left-radius: 20px
+    border-bottom-right-radius: 20px
+    padding: 25px
+    background-color: $color-secondary
+  
+  

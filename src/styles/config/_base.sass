@@ -1,0 +1,98 @@
+*,*::before,*::after 
+	box-sizing: border-box
+
+body, html
+	font-family: $font-family-default
+	font-weight: $font-weight-normal
+	font-size: 16px
+	line-height: 1.7
+	color: #222
+	padding-top: 30px
+	background-color: #3a8cc1
+	position: relative
+	cursor: auto
+	@include md 
+		padding-top: 20px
+
+    
+	@include sm 
+		font-size: 15px
+	// ::selection 
+	// 	background-color: $color-selection
+
+// 文字 START
+.h1, h1, .h2, h2, .h3, h3, .h4, h4, .h5, h5, .h6, h6
+	font-weight: $font-weight-bold
+	color: $color-primary
+.h1, h1, .h2, h2, .h3, h3
+	margin-top: 1.75rem
+.h4, h4, .h5, h5, .h6, h6
+	margin-top: 1.25rem
+.h1, h1
+	font-size: $font-size-h1
+.h2, h2
+	font-size: $font-size-h2
+.h3, h3
+	font-size: $font-size-h3
+.h4, h4
+	font-size: $font-size-h4
+.h5, h5
+	font-size: $font-size-h5
+.h6, h6
+	font-size: $font-size-h6
+p 
+	font-size: $font-size-base
+	font-weight: $font-weight-normal
+	color: $color-secondary
+	margin-top: .75rem
+strong 
+	font-weight: $font-weight-normal
+	color: $color-primary
+// 文字 END
+ul,ol 
+	padding-left: 1.5rem
+ul 
+	list-style: disc
+ol 
+	list-style: decimal
+li 
+	color: $color-secondary
+
+table
+	border-collapse: collapse
+	border-spacing: 0
+
+a
+	font-size: $font-size-base
+	font-weight: $font-weight-normal
+	color: $color-primary
+	text-decoration: none
+	cursor: pointer
+	&:hover 
+		text-decoration: underline
+		
+.dashed-underline
+	text-decoration: underline
+	text-underline-offset: 8px
+	text-decoration-style: dashed 
+	-webkit-text-decoration-style: dashed
+
+span 
+	color: $color-secondary
+
+// strong 
+// 	color: $color-primary
+// 	background: linear-gradient(transparent 85%, $color-emphasis 0%)
+
+img
+	max-width: 100%
+	height: auto
+
+hr 
+	margin-top: 3rem
+	margin-bottom: 3rem
+	// border: dashed 1px $color-line
+
+button 
+	background: none 
+	border: none

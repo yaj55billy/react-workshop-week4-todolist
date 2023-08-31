@@ -1,0 +1,61 @@
+@mixin generate($pro, $side, $spacValue)
+  @if $side == ''
+    @if $pro == 'm'
+      margin: $spacValue
+    @if $pro == 'p'
+      padding: $spacValue
+  @if $side == 't'
+    @if $pro == 'm'
+      margin-top: $spacValue
+    @if $pro == 'p'
+      padding-top: $spacValue
+  @if $side == 'b'
+    @if $pro == 'm'
+      margin-bottom: $spacValue
+    @if $pro == 'p'
+      padding-bottom: $spacValue
+  @if $side == 'l'
+    @if $pro == 'm'
+      margin-left: $spacValue
+    @if $pro == 'p'
+      padding-left: $spacValue
+  @if $side == 'r'
+    @if $pro == 'm'
+      margin-right: $spacValue
+    @if $pro == 'p'
+      padding-right: $spacValue
+  @if $side == 'x'
+    @if $pro == 'm'
+      margin-left: $spacValue
+      margin-right: $spacValue
+    @if $pro == 'p'
+      padding-left: $spacValue
+      padding-right: $spacValue
+  @if $side == 'y'
+    @if $pro == 'm'
+      margin-top: $spacValue
+      margin-bottom: $spacValue 
+    @if $pro == 'p'
+      padding-top: $spacValue
+      padding-bottom: $spacValue
+
+@each $key, $value in $grid-breakpoints   
+  @if not $value 
+    @each $pro in $property 
+      @each $side in $sides
+        @each $spacKey, $spacValue in $spacies
+          .#{$pro}#{$side}-#{$spacKey}
+            @include generate($pro, $side, $spacValue)
+  @else 
+    @media screen and (max-width: $value)
+      @each $pro in $property
+        @each $side in $sides
+          @each $spacKey, $spacValue in $spacies
+            .#{$pro}#{$side}-#{$key}-#{$spacKey}
+              @include generate($pro, $side, $spacValue)
+
+.text-center 
+  text-align: center 
+
+.del 
+  text-decoration: line-through

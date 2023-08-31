@@ -10,13 +10,18 @@ import {
 } from "../api";
 import TodoItem from "../components/TodoItem";
 
-const Todo = ({ todoToken }) => {
+const Todo = () => {
 	const [list, setList] = useState([]);
 	const [filterType, setFilterType] = useState("all");
 	const [input, setInput] = useState("");
 	const [check, setCheck] = useState(false);
 	const [nickname, setNickname] = useState("");
 	const [editTarget, setEditTarget] = useState({});
+
+	const todoToken = document.cookie
+		.split("; ")
+		.find((row) => row.startsWith("token="))
+		?.split("=")[1];
 
 	const headers = {
 		Authorization: todoToken,
@@ -104,16 +109,20 @@ const Todo = ({ todoToken }) => {
 	});
 
 	return (
-		<div id="todoListPage" className="bg-yellow">
-			<div className="container todoListPage">
-				{check === false ? (
-					<h2 className="not-login-text">操作待辦清單，請先登入~</h2>
-				) : (
-					<>
-						<h2 className="formControls_txt">{nickname} 待辦清單</h2>
-						<div className="todoList_Content">
-							<div className="inputBox">
+		<>
+			{check === false ? (
+				<h2 className="not-login-text">操作待辦清單，請先登入~</h2>
+			) : (
+				<>
+					Hi~ {nickname}
+					<div id="todolist" className="content">
+						<div className="content__header">
+							<h2 className="content__title"> 待辦清單</h2>
+						</div>
+						<div className="content__body">
+							<div className="form__item">
 								<input
+									className="form__input"
 									type="text"
 									placeholder="請輸入待辦事項"
 									value={input}
@@ -180,10 +189,10 @@ const Todo = ({ todoToken }) => {
 								</div>
 							)}
 						</div>
-					</>
-				)}
-			</div>
-		</div>
+					</div>
+				</>
+			)}
+		</>
 	);
 };
 
