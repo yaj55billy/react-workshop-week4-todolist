@@ -35,7 +35,6 @@
 .content 
   border-radius: 20px
   box-shadow: 0 0 8px 8px rgba(0,0,0,.1)
-  
   &__title
     color: $color-white
     text-align: center
@@ -51,4 +50,109 @@
     padding: 25px
     background-color: $color-secondary
   
-  
+.todo
+  &__addbtn
+    width: 40px
+    height: 40px
+    line-height: 42px
+    background-color: $color-primary
+    border-radius: 6px
+    margin-left: 12px
+    font-size: 1.2rem
+    color: $color-white
+    cursor: pointer
+    &:hover
+      background-color: lighten($color-primary, 8%)
+  &__content
+    margin-top: 12px
+  &__category
+    display: flex
+    &__list
+      flex: 1
+      border-bottom: solid 2px $color-gray-300
+      padding: 8px 0
+      font-size: 16px
+      font-weight: 400
+      color: $color-gray-600
+      cursor: pointer
+      &.active, &:hover 
+        border-bottom: solid 2px $color-primary
+        color: $color-primary
+        font-weight: 700
+  &__list 
+    padding-left: 0
+    margin-top: 15px
+  &__item
+    display: flex
+    align-items: center
+    width: 100%
+    color: #222
+    border-bottom: solid 1px $color-gray-500
+    padding: 15px 0px 15px 18px
+    .form__input 
+      width: 70%
+      height: 100%
+      padding: 4px 10px
+  &__label
+    width: 90%
+  &__check
+    cursor: pointer
+    display: inline-block
+    position: relative
+    width: 20px
+    height: 20px
+    margin: 0px 12px 0px 0px
+    transform: translateY(5px)
+    &::after
+      content: ''
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      z-index: 5
+    &:checked::after
+      content: "\f00c"
+      font-family: "Font Awesome 6 Free"
+      font-weight: 900
+      font-size: 1rem
+      color: $color-white
+      text-align: center
+      background-color: $color-primary
+      border-radius: 3px
+      padding-top: 2px
+  &__icon
+    cursor: pointer
+    color: $color-primary
+    font-size: 1.5rem
+    &:hover 
+      color: lighten($color-primary, 12%)
+  &__text
+    display: inline-block
+  &__bottom
+    display: flex 
+    padding: 15px 0px 15px 18px
+    &__text
+      flex: 1
+      color: #222
+      margin-top: 0
+    &__btn
+      cursor: pointer
+      color: $color-gray-600
+      &:hover
+        color: $color-primary
+
+.greet
+  display: flex
+  margin-bottom: 15px
+  &__text
+    flex: 1
+    margin-top: 0
+    color: #FFF
+  &__btn
+    cursor: pointer
+    font-size: 1.1rem
+    color: #87CEEB
+    &:hover
+      text-decoration: underline

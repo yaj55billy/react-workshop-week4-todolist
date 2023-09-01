@@ -21,10 +21,10 @@ const TodoItem = ({
 	};
 
 	return (
-		<li>
-			<label className="todoList_label" htmlFor={id}>
+		<li className="todo__item">
+			<label className="todo__label" htmlFor={id}>
 				<input
-					className="todoList_input"
+					className="todo__check"
 					type="checkbox"
 					id={id}
 					checked={status}
@@ -32,6 +32,7 @@ const TodoItem = ({
 				/>
 				{editTarget.id === id ? (
 					<input
+						className="form__input"
 						type="text"
 						value={editTarget.content}
 						onChange={(e) => {
@@ -39,10 +40,10 @@ const TodoItem = ({
 						}}
 					/>
 				) : (
-					<span>{content}</span>
+					<span className="todo__text">{content}</span>
 				)}
 			</label>
-			<button type="button" className="edit-btn">
+			<button type="button" className="todo__icon">
 				{editTarget.id === id ? (
 					<i
 						className="fa-solid fa-check"
@@ -57,7 +58,7 @@ const TodoItem = ({
 					></i>
 				)}
 			</button>
-			<button type="button" className="delete-btn" onClick={atClickDelete}>
+			<button type="button" className="todo__icon" onClick={atClickDelete}>
 				<i className="fa fa-times" />
 			</button>
 		</li>
