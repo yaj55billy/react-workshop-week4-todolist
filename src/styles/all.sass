@@ -31,6 +31,9 @@
     transition: background .3s
     &:hover
       background-color: lighten($color-primary, 8%)
+    &:disabled
+      background-color: $color-gray-200
+      cursor: none
 
 .content 
   border-radius: 20px

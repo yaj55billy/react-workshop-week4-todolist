@@ -1,26 +1,45 @@
+import Swal from "sweetalert2";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { apiUsersSignUp } from "../api";
 
 const SignUp = () => {
-	const {
-		register, // state
-		handleSubmit, // 處理 submit
-	} = useForm(); // 從 useForm 這個功能解構出 register handleSubmit
+	const [isDisabled, setDisabled] = useState(false);
+	const { register, handleSubmit, reset } = useForm();
 
-	// const [message, setMessage] = useState("");
-	// const [error, setError] = useState(false);
+	const resetHandle = () => {
+		reset();
+	};
+
+	const navigate = useNavigate();
 
 	const onSubmit = (data) => {
+		setDisabled(true);
 		apiUsersSignUp(data)
 			.then(() => {
-				// setMessage("恭喜註冊成功~");
-				// setError(false);
+				Swal.fire({
+					title: "恭喜註冊成功！",
+					text: "為您導至登入頁...",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+				setTimeout(() => {
+					navigate("/");
+				}, 1500);
 			})
 			.catch(() => {
-				// setMessage("註冊失敗，請再檢查是否有註冊過~");
-				// setError(true);
+				Swal.fire({
+					title: "註冊失敗，請再檢查看看~",
+					icon: "error",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			})
+			.finally(() => {
+				setDisabled(false);
+				resetHandle();
 			});
 	};
 
@@ -71,12 +90,12 @@ const SignUp = () => {
 							{...register("password")}
 						/>
 					</div>
-
-					{/* <p className={`mt-1 ${error ? "error-text" : "success-text"}`}>
-						{message}
-					</p> */}
 					<div className="text-center mt-6">
-						<button className="form__button" type="submit">
+						<button
+							className="form__button"
+							type="submit"
+							disabled={isDisabled}
+						>
 							註冊帳號
 						</button>
 					</div>
