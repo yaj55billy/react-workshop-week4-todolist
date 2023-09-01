@@ -203,9 +203,4 @@ const Todo = () => {
 		</>
 	);
 };
-
-Todo.propTypes = {
-	todoToken: propTypes.string.isRequired,
-};
-
 export default Todo;

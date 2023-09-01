@@ -1,10 +1,8 @@
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./styles/all.sass";
 import SignUp from "./views/SignUp.jsx";
 import SignIn from "./views/SignIn.jsx";
 import Todo from "./views/Todo.jsx";
-// import { useState, useEffect } from "react";
-// import SignOut from "./components/SignOut";
 
 function App() {
 	// const [token, setToken] = useState("");
@@ -23,11 +21,6 @@ function App() {
 	return (
 		<div className="main">
 			<div className="container">
-				{/* <nav>
-						<NavLink to="/">註冊頁</NavLink>
-						<NavLink to="/signin">登入頁</NavLink>
-						<NavLink to="/todo">Todo頁</NavLink>
-					</nav> */}
 				<Routes>
 					<Route path="/" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />

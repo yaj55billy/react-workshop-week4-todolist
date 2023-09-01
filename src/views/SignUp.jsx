@@ -31,7 +31,7 @@ const SignUp = () => {
 			})
 			.catch(() => {
 				Swal.fire({
-					title: "註冊失敗，請再檢查看看~",
+					title: "註冊失敗，請再檢查看看",
 					icon: "error",
 					showConfirmButton: false,
 					timer: 1500,
