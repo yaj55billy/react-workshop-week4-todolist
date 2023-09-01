@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // todolist api
-const todoBase = axios.create({
+export const todoBase = axios.create({
 	baseURL: "https://todolist-api.hexschool.io",
 });
 
@@ -20,20 +20,16 @@ export const apiUsersSignOut = (headers) =>
 	todoBase.post("/users/sign_out", {}, headers);
 
 // 取得所有待辦
-export const apiGetTodos = (headers) => todoBase.get("/todos/", headers);
+export const apiGetTodos = () => todoBase.get("/todos/");
 
 // 新增待辦
-export const apiPostTodos = (data, headers) =>
-	todoBase.post("/todos/", data, headers);
+export const apiPostTodos = (data) => todoBase.post("/todos/", data);
 
 // 刪除待辦
-export const apiDeleteTodos = (id, headers) =>
-	todoBase.delete(`/todos/${id}`, headers);
+export const apiDeleteTodos = (id) => todoBase.delete(`/todos/${id}`);
 
 // 切換待辦狀態
-export const apiPatchTodos = (id, headers) =>
-	todoBase.patch(`/todos/${id}/toggle`, {}, headers);
+export const apiPatchTodos = (id) => todoBase.patch(`/todos/${id}/toggle`, {});
 
 // 編輯待辦文字
-export const apiPutTodos = (id, data, headers) =>
-	todoBase.put(`/todos/${id}`, data, headers);
+export const apiPutTodos = (id, data) => todoBase.put(`/todos/${id}`, data);

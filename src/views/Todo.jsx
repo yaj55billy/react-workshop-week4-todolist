@@ -1,5 +1,5 @@
-import propTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
 	apiUsersCheckout,
@@ -8,25 +8,23 @@ import {
 	apiDeleteTodos,
 	apiPatchTodos,
 	apiPutTodos,
+	todoBase,
 } from "../api";
 import TodoItem from "../components/TodoItem";
 
 const Todo = () => {
-	const [list, setList] = useState([]);
-	const [filterType, setFilterType] = useState("all");
+	const [todo, setTodo] = useState([]);
+	const [filterTodo, setFilterTodo] = useState("all");
 	const [input, setInput] = useState("");
-	const [check, setCheck] = useState(false);
 	const [nickname, setNickname] = useState("");
 	const [editTarget, setEditTarget] = useState({});
+
+	const navigate = useNavigate();
 
 	const todoToken = document.cookie
 		.split("; ")
 		.find((row) => row.startsWith("token="))
 		?.split("=")[1];
-
-	const headers = {
-		Authorization: todoToken,
-	};
 
 	const checkLogin = () => {
 		apiUsersCheckout({
@@ -36,34 +34,64 @@ const Todo = () => {
 		})
 			.then((res) => {
 				setNickname(res.data.nickname);
-				setCheck(true);
+				todoBase.defaults.headers.common["Authorization"] = todoToken;
 				getTodos();
 			})
 			.catch(() => {
-				setCheck(false);
+				Swal.fire({
+					title: "驗證失敗，請先登入",
+					text: "稍後導至登入頁",
+					icon: "error",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+				setTimeout(() => {
+					navigate("/");
+				}, 1500);
 			});
 	};
 
 	useEffect(() => {
 		checkLogin();
-	}, [todoToken]);
+	}, []);
 
 	const getTodos = () => {
-		apiGetTodos({ headers })
+		apiGetTodos()
 			.then((res) => {
-				setList(res.data.data);
+				setTodo(res.data.data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	};
 
+	const Toast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		customClass: {
+			popup: "colored-toast",
+		},
+		timer: 1500,
+		timerProgressBar: true,
+	});
+
 	// 新增項目
 	const addTodo = () => {
 		if (input === "") return;
-		apiPostTodos({ content: input }, { headers }).then((res) => {
-			console.log(res);
-		});
+		apiPostTodos({ content: input })
+			.then(() => {
+				Toast.fire({
+					icon: "success",
+					title: "新增成功",
+				});
+			})
+			.catch(() => {
+				Toast.fire({
+					icon: "error",
+					title: "新增失敗，請再檢查看看",
+				});
+			});
 
 		setInput(""); // 清空
 		getTodos();
@@ -71,47 +99,43 @@ const Todo = () => {
 
 	// 刪除項目
 	const deleteTodo = (id) => {
-		apiDeleteTodos(id, { headers });
+		apiDeleteTodos(id);
 		getTodos();
 	};
 
 	// 切換狀態（是否完成）
 	const toggleTodo = (id) => {
-		apiPatchTodos(id, { headers });
+		apiPatchTodos(id);
 		getTodos();
 	};
 
 	// 編輯項目
 	const updateTodo = (id, content) => {
-		apiPutTodos(id, { content }, { headers });
+		apiPutTodos(id, { content });
 		setEditTarget({});
 		getTodos();
 	};
 
 	// 切換 Filter 的狀態
 	const filterChange = (status) => {
-		setFilterType(status);
+		setFilterTodo(status);
 	};
 
 	// 根據 FilterType ，決定顯示要什麼資料
-	const filterList = list.filter((item) => {
-		if (filterType === "completed") {
+	const filterList = todo.filter((item) => {
+		if (filterTodo === "completed") {
 			return item.status;
 		}
-		if (filterType === "active") {
+		if (filterTodo === "active") {
 			return !item.status;
 		}
 		return true;
 	});
 
 	// 從原先 list 資料去 filter
-	const listCompleted = list.filter((item) => {
+	const listCompleted = todo.filter((item) => {
 		return item.status;
 	});
-
-	/**
-	 * 如果 check === false 則跳出 popup 通知使用者登入，並且有個登入導向
-	 */
 
 	return (
 		<>
@@ -143,14 +167,14 @@ const Todo = () => {
 							</button>
 						</div>
 					</div>
-					{list.length === 0 ? (
+					{todo.length === 0 ? (
 						<h4 className="text-center">目前沒有待辦事項，來新增吧！</h4>
 					) : (
 						<div className="todo__content">
 							<div className="todo__category">
 								<button
 									className={`todo__category__list ${
-										filterType === "all" ? "active" : ""
+										filterTodo === "all" ? "active" : ""
 									}`}
 									onClick={() => filterChange("all")}
 								>
@@ -158,7 +182,7 @@ const Todo = () => {
 								</button>
 								<button
 									className={`todo__category__list ${
-										filterType === "active" ? "active" : ""
+										filterTodo === "active" ? "active" : ""
 									}`}
 									onClick={() => filterChange("active")}
 								>
@@ -166,7 +190,7 @@ const Todo = () => {
 								</button>
 								<button
 									className={`todo__category__list ${
-										filterType === "completed" ? "active" : ""
+										filterTodo === "completed" ? "active" : ""
 									}`}
 									onClick={() => filterChange("completed")}
 								>

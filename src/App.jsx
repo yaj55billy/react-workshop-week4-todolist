@@ -5,19 +5,6 @@ import SignIn from "./views/SignIn.jsx";
 import Todo from "./views/Todo.jsx";
 
 function App() {
-	// const [token, setToken] = useState("");
-
-	// const todoToken = document.cookie
-	// 	.split("; ")
-	// 	.find((row) => row.startsWith("token="))
-	// 	?.split("=")[1];
-
-	// useEffect(() => {
-	// 	if (todoToken) {
-	// 		setToken(todoToken);
-	// 	}
-	// }, []);
-
 	return (
 		<div className="main">
 			<div className="container">
