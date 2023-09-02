@@ -3,6 +3,7 @@ import "./styles/all.sass";
 import SignUp from "./views/SignUp.jsx";
 import SignIn from "./views/SignIn.jsx";
 import Todo from "./views/Todo.jsx";
+import NotFound from "./views/NotFound";
 
 function App() {
 	return (
@@ -12,7 +13,7 @@ function App() {
 					<Route path="/" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/todo" element={<Todo />} />
-					{/* <Route path="*" element={<NotFound />}></Route> */}
+					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</div>
 		</div>

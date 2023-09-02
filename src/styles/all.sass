@@ -159,3 +159,34 @@
     color: #87CEEB
     &:hover
       text-decoration: underline
+
+@keyframes icon-flow
+  0%
+    left: 0%
+    top: -7px
+  50%
+    left: -5%
+    top: -3px
+  100% 
+    left: 5%
+    top: 3px
+    
+.notfound
+  text-align: center 
+  color: $color-white
+  border: dashed 2px $color-white
+  padding: 30px 15px
+  &__icon
+    position: relative
+    font-size: 3rem
+    animation-name: icon-flow
+    animation-duration: 3s
+    animation-iteration-count: infinite
+    animation-timing-function: ease-in-out
+    animation-direction: alternate
+  &__title
+    margin-top: 10px
+  &__link
+    display: block
+    margin-top: 20px  
+    text-decoration: underline
