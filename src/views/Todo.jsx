@@ -9,12 +9,14 @@ import {
 	apiPatchTodos,
 	apiPutTodos,
 	todoBase,
+	apiUsersSignOut,
 } from "../api";
 import TodoItem from "../components/TodoItem";
+import TodoCategory from "../components/TodoCategory";
 
 const Todo = () => {
 	const [todo, setTodo] = useState([]);
-	const [filterTodo, setFilterTodo] = useState("all");
+	const [todoType, setTodoType] = useState("all");
 	const [input, setInput] = useState("");
 	const [nickname, setNickname] = useState("");
 	const [editTarget, setEditTarget] = useState({});
@@ -83,13 +85,13 @@ const Todo = () => {
 			.then(() => {
 				Toast.fire({
 					icon: "success",
-					title: "新增成功",
+					title: "新增待辦成功",
 				});
 			})
 			.catch(() => {
 				Toast.fire({
 					icon: "error",
-					title: "新增失敗，請再檢查看看",
+					title: "新增待辦失敗，請再檢查看看",
 				});
 			});
 
@@ -99,49 +101,127 @@ const Todo = () => {
 
 	// 刪除項目
 	const deleteTodo = (id) => {
-		apiDeleteTodos(id);
+		apiDeleteTodos(id)
+			.then(() => {
+				Toast.fire({
+					icon: "success",
+					title: "刪除待辦成功",
+				});
+			})
+			.catch(() => {
+				Toast.fire({
+					icon: "error",
+					title: "刪除待辦失敗，請再檢查看看",
+				});
+			});
 		getTodos();
 	};
 
 	// 切換狀態（是否完成）
 	const toggleTodo = (id) => {
-		apiPatchTodos(id);
+		apiPatchTodos(id)
+			.then(() => {
+				Toast.fire({
+					icon: "success",
+					title: "待辦狀態更新成功",
+				});
+			})
+			.catch(() => {
+				Toast.fire({
+					icon: "error",
+					title: "待辦狀態更新失敗，請再檢查看看",
+				});
+			});
 		getTodos();
 	};
 
 	// 編輯項目
 	const updateTodo = (id, content) => {
-		apiPutTodos(id, { content });
+		apiPutTodos(id, { content })
+			.then(() => {
+				Toast.fire({
+					icon: "success",
+					title: "編輯待辦成功",
+				});
+			})
+			.catch(() => {
+				Toast.fire({
+					icon: "error",
+					title: "編輯待辦失敗，請再檢查看看",
+				});
+			});
 		setEditTarget({});
 		getTodos();
 	};
 
-	// 切換 Filter 的狀態
-	const filterChange = (status) => {
-		setFilterTodo(status);
+	// 切換：全部、待完成、已完成
+	const todoTypeChange = (status) => {
+		setTodoType(status);
 	};
 
-	// 根據 FilterType ，決定顯示要什麼資料
-	const filterList = todo.filter((item) => {
-		if (filterTodo === "completed") {
+	// 根據 todoType ，決定顯示要什麼資料
+	const filterTodo = todo.filter((item) => {
+		if (todoType === "completed") {
 			return item.status;
 		}
-		if (filterTodo === "active") {
+		if (todoType === "active") {
 			return !item.status;
 		}
 		return true;
 	});
 
 	// 從原先 list 資料去 filter
-	const listCompleted = todo.filter((item) => {
+	const todoCompleted = todo.filter((item) => {
 		return item.status;
 	});
+
+	// 清除已完成項目
+	const clearTodoCompleted = () => {
+		const result = todo.filter((item) => {
+			if (item.status) {
+				apiDeleteTodos(item.id);
+			}
+		});
+		Promise.all(result).then(() => {
+			Toast.fire({
+				icon: "success",
+				title: "清除已完成項目成功",
+			});
+		});
+		getTodos();
+	};
+
+	// 登出
+	const signOut = () => {
+		apiUsersSignOut()
+			.then(() => {
+				document.cookie = "token=; expires=;";
+				Swal.fire({
+					title: "您已登出",
+					text: "為您導回登入頁面...",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+				setTimeout(() => {
+					navigate("/");
+				}, 1500);
+			})
+			.catch(() => {
+				Swal.fire({
+					title: "登出失敗，請再檢查看看",
+					icon: "error",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			});
+	};
 
 	return (
 		<>
 			<div className="greet">
 				<h4 className="greet__text">Hi~ {nickname}</h4>
-				<button className="greet__btn" type="button">
+				<button className="greet__btn" type="button" onClick={signOut}>
 					登出
 				</button>
 			</div>
@@ -171,34 +251,13 @@ const Todo = () => {
 						<h4 className="text-center">目前沒有待辦事項，來新增吧！</h4>
 					) : (
 						<div className="todo__content">
-							<div className="todo__category">
-								<button
-									className={`todo__category__list ${
-										filterTodo === "all" ? "active" : ""
-									}`}
-									onClick={() => filterChange("all")}
-								>
-									全部
-								</button>
-								<button
-									className={`todo__category__list ${
-										filterTodo === "active" ? "active" : ""
-									}`}
-									onClick={() => filterChange("active")}
-								>
-									待完成
-								</button>
-								<button
-									className={`todo__category__list ${
-										filterTodo === "completed" ? "active" : ""
-									}`}
-									onClick={() => filterChange("completed")}
-								>
-									已完成
-								</button>
-							</div>
+							<TodoCategory
+								todoType={todoType}
+								todoTypeChange={todoTypeChange}
+							/>
+
 							<ul className="todo__list">
-								{filterList.map((item) => {
+								{filterTodo.map((item) => {
 									return (
 										<TodoItem
 											key={item.id}
@@ -216,9 +275,14 @@ const Todo = () => {
 							</ul>
 							<div className="todo__bottom">
 								<p className="todo__bottom__text">
-									{listCompleted.length} 個已完成項目
+									{todoCompleted.length} 個已完成項目
 								</p>
-								<button className="todo__bottom__btn">清除已完成項目</button>
+								<button
+									className="todo__bottom__btn"
+									onClick={clearTodoCompleted}
+								>
+									清除已完成項目
+								</button>
 							</div>
 						</div>
 					)}

@@ -16,8 +16,7 @@ export const apiUsersCheckout = (headers) =>
 	todoBase.get("/users/checkout", headers);
 
 // 登出
-export const apiUsersSignOut = (headers) =>
-	todoBase.post("/users/sign_out", {}, headers);
+export const apiUsersSignOut = () => todoBase.post("/users/sign_out", {});
 
 // 取得所有待辦
 export const apiGetTodos = () => todoBase.get("/todos/");
