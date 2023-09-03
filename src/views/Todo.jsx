@@ -87,16 +87,17 @@ const Todo = () => {
 					icon: "success",
 					title: "新增待辦成功",
 				});
+				getTodos();
 			})
 			.catch(() => {
 				Toast.fire({
 					icon: "error",
 					title: "新增待辦失敗，請再檢查看看",
 				});
+			})
+			.finally(() => {
+				setInput(""); // 清空
 			});
-
-		setInput(""); // 清空
-		getTodos();
 	};
 
 	// 刪除項目
@@ -107,6 +108,7 @@ const Todo = () => {
 					icon: "success",
 					title: "刪除待辦成功",
 				});
+				getTodos();
 			})
 			.catch(() => {
 				Toast.fire({
@@ -114,7 +116,6 @@ const Todo = () => {
 					title: "刪除待辦失敗，請再檢查看看",
 				});
 			});
-		getTodos();
 	};
 
 	// 切換狀態（是否完成）
@@ -125,6 +126,7 @@ const Todo = () => {
 					icon: "success",
 					title: "待辦狀態更新成功",
 				});
+				getTodos();
 			})
 			.catch(() => {
 				Toast.fire({
@@ -132,7 +134,6 @@ const Todo = () => {
 					title: "待辦狀態更新失敗，請再檢查看看",
 				});
 			});
-		getTodos();
 	};
 
 	// 編輯項目
@@ -143,15 +144,17 @@ const Todo = () => {
 					icon: "success",
 					title: "編輯待辦成功",
 				});
+				getTodos();
 			})
 			.catch(() => {
 				Toast.fire({
 					icon: "error",
 					title: "編輯待辦失敗，請再檢查看看",
 				});
+			})
+			.finally(() => {
+				setEditTarget({});
 			});
-		setEditTarget({});
-		getTodos();
 	};
 
 	// 切換：全部、待完成、已完成
@@ -187,8 +190,8 @@ const Todo = () => {
 				icon: "success",
 				title: "清除已完成項目成功",
 			});
+			getTodos();
 		});
-		getTodos();
 	};
 
 	// 登出
