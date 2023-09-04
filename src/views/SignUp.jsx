@@ -29,9 +29,9 @@ const SignUp = () => {
 					navigate("/");
 				}, 1500);
 			})
-			.catch(() => {
+			.catch((error) => {
 				Swal.fire({
-					title: "註冊失敗，請再檢查看看",
+					title: error.response.data.message,
 					icon: "error",
 					showConfirmButton: false,
 					timer: 1500,

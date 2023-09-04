@@ -97,6 +97,7 @@ const Todo = () => {
 			})
 			.finally(() => {
 				setInput(""); // 清空
+				setTodoType("all"); // 將頁籤切換為「全部」
 			});
 	};
 
@@ -174,8 +175,8 @@ const Todo = () => {
 	});
 
 	// 從原先 list 資料去 filter
-	const todoCompleted = todo.filter((item) => {
-		return item.status;
+	const todoUnCompleted = todo.filter((item) => {
+		return !item.status;
 	});
 
 	// 清除已完成項目
@@ -244,6 +245,11 @@ const Todo = () => {
 								onChange={(e) => {
 									setInput(e.target.value);
 								}}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										addTodo();
+									}
+								}}
 							/>
 							<button className="todo__addbtn" type="button" onClick={addTodo}>
 								<i className="fa fa-plus" />
@@ -278,7 +284,7 @@ const Todo = () => {
 							</ul>
 							<div className="todo__bottom">
 								<p className="todo__bottom__text">
-									{todoCompleted.length} 個已完成項目
+									{todoUnCompleted.length} 個待完成項目
 								</p>
 								<button
 									className="todo__bottom__btn"
